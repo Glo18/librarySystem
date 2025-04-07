@@ -47,5 +47,60 @@ function returnBook(bookId) {
     }
 }
 
+// Add a new book
+function addBook(event) {
+    event.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const author = document.getElementById("author").value.trim();
+    const year = parseInt(document.getElementById("year").value.trim());
+
+    if (title && author && year) {
+        const newBook = {
+            id: books.length + 1,
+            title,
+            author,
+            year,
+            isAvailable: true
+        };
+        books.push(newBook);
+        displayBooks();
+        document.getElementById("addBookForm").reset();
+    }
+}
+
+// Search books by title or author
+function searchBooks() {
+    const query = document.getElementById("searchBar").value.toLowerCase();
+    const filteredBooks = books.filter(book =>
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query)
+    );
+
+    displayFilteredBooks(filteredBooks);
+}
+
+// Render filtered book results
+function displayFilteredBooks(filtered) {
+    const libraryDiv = document.getElementById("library");
+    libraryDiv.innerHTML = "";
+
+    filtered.forEach(book => {
+        let bookDiv = document.createElement("div");
+        bookDiv.classList.add("book");
+
+        bookDiv.innerHTML = `
+            <h2>${book.title}</h2>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Year:</strong> ${book.year}</p>
+            <p><strong>Status:</strong> ${book.isAvailable ? "Available" : "Borrowed"}</p>
+            <button class="borrow" ${!book.isAvailable ? "disabled" : ""} onclick="borrowBook(${book.id})">Borrow</button>
+            <button class="return" ${book.isAvailable ? "disabled" : ""} onclick="returnBook(${book.id})">Return</button>
+        `;
+
+        libraryDiv.appendChild(bookDiv);
+    });
+}
+
 // Initial display of books
 displayBooks();
