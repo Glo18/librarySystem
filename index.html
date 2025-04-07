@@ -8,6 +8,18 @@
 </head>
 <body>
     <h1>Library Management System</h1>
+
+    <!-- Search Bar -->
+    <input type="text" id="searchBar" placeholder="Search books by title or author" oninput="searchBooks()" />
+
+    <!-- Add Book Form -->
+    <form id="addBookForm" onsubmit="addBook(event)">
+        <input type="text" id="title" placeholder="Title" required />
+        <input type="text" id="author" placeholder="Author" required />
+        <input type="number" id="year" placeholder="Year" required />
+        <button type="submit">Add Book</button>
+    </form>
+    
     <div id="library">
         <!-- Books will be loaded here dynamically -->
     </div>
